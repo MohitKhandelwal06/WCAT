@@ -4,19 +4,25 @@
 const fs=require("fs");
 
 let inputArr=process.argv.slice(2);
-console.log(inputArr);
+// console.log(inputArr);
 
 let filesArr=[];
+let optionArr=[];
 //list files path in files array
 for(let i=0;i<inputArr.length;i++){
-    filesArr.push(inputArr[i]);
+    let firstChar=inputArr[i].charAt(0);
+    if(firstChar=='-'){
+        optionArr.push(inputArr[i]);
+    }else{
+        filesArr.push(inputArr[i]);
+    }
 }
 // console.log("Files to be read are:"+filesArr);
 
 for(let i=0;i<filesArr.length;i++){
     let doesExist=fs.existsSync(filesArr[i]);
     if(!doesExist){
-        console.log("File does not exist");
+        console.log("One or More File(s) do not exist");
         return;
     }
 }
@@ -29,3 +35,9 @@ for(let i=0;i<filesArr.length;i++){
 }
 
 console.log(content);
+
+
+let contentArr=content.split('\n');
+for(let i=0;i<contentArr.length;i++){
+    console.log(i+1 +" "+ contentArr[i]);
+}
