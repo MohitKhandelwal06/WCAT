@@ -34,10 +34,46 @@ for(let i=0;i<filesArr.length;i++){
     content+=fileContent+"\n";
 }
 
-console.log(content);
+// console.log(content);
 
 
 let contentArr=content.split('\n');
+// console.table(contentArr);
+// check if -s is present in the options array
+let isSPresent=optionArr.includes("-s");
+function sOption(contentArr){
+    for(let i=1;i<contentArr.length;i++){
+        if((contentArr[i]=="\r"||contentArr[i]=="") && contentArr[i-1]=="\r"){
+            contentArr[i]=null;
+        }else if((contentArr[i]=="\r"||contentArr[i]=="") && contentArr[i-1]==null){
+            contentArr[i]=null;
+        }
+    }
+
+    // console.table(contentArr);
+let tempArr=[];
 for(let i=0;i<contentArr.length;i++){
-    console.log(i+1 +" "+ contentArr[i]);
+    if(contentArr[i]!=null){
+        tempArr.push(contentArr[i]);
+    }
 }
+return tempArr;
+}
+if(isSPresent){
+    contentArr=sOption(contentArr);
+}
+
+for(let i=0;i<contentArr.length;i++){
+    console.log(" "+ contentArr[i]);
+}
+
+
+// let contentArr2=content.split('\n');
+// let count=1;
+// for(let i=0;i<contentArr.length;i++){
+//     if(contentArr2[i]=='\n'){
+//         continue;
+//     }
+//     console.log(count +" "+ contentArr2[i]);
+//     count++;
+// }
