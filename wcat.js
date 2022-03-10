@@ -8,7 +8,7 @@ let inputArr=process.argv.slice(2);
 
 let filesArr=[];
 let optionArr=[];
-//list files path in files array
+//==============================>list files path in files array<==============================
 for(let i=0;i<inputArr.length;i++){
     let firstChar=inputArr[i].charAt(0);
     if(firstChar=='-'){
@@ -27,7 +27,7 @@ for(let i=0;i<filesArr.length;i++){
     }
 }
 
-// Content read and appending
+// ==============================>Content read and appending<==============================
 let content="";
 for(let i=0;i<filesArr.length;i++){
     let fileContent=fs.readFileSync(filesArr[i]);
@@ -35,12 +35,7 @@ for(let i=0;i<filesArr.length;i++){
 }
 
 // console.log(content);
-
-
-let contentArr=content.split('\n');
-// console.table(contentArr);
-// check if -s is present in the options array
-let isSPresent=optionArr.includes("-s");
+// =============================>s flag function <==============================
 function sOption(contentArr){
     for(let i=1;i<contentArr.length;i++){
         if((contentArr[i]=="\r"||contentArr[i]=="") && contentArr[i-1]=="\r"){
@@ -59,8 +54,65 @@ for(let i=0;i<contentArr.length;i++){
 }
 return tempArr;
 }
+// =============================>n flag function <==============================
+function nOption(contentArr){
+    let tempArr=[];
+    for(let i=0;i<contentArr.length;i++){
+        let x="";
+        x=i+1+" "+contentArr[i];
+        tempArr.push(x);
+    }
+    
+    return tempArr;
+}
+// =============================>b flag function <==============================
+function bOption(contentArr){
+    let tempArr=[];
+    let count=1;
+    for(let i=0;i<contentArr.length;i++){
+        if(contentArr[i]!='\r'){
+            let x="";
+            x=count+" "+contentArr[i];
+            tempArr.push(x);
+            count++;
+        }else{
+            tempArr.push("\n");
+        }
+        
+    }
+    
+    return tempArr;
+}
+
+
+let contentArr=content.split('\n');
+// console.table(contentArr);
+// check if -s is present in the options array
+let isSPresent=optionArr.includes("-s");
 if(isSPresent){
     contentArr=sOption(contentArr);
+}
+
+let indexOfn=optionArr.indexOf('-n');
+let indexOfb=optionArr.indexOf('-b');
+finalOption="";
+if(indexOfb!=-1 && indexOfn!=-1){
+    if(indexOfb<indexOfn){
+        finalOption='-n';
+    }else{
+        finalOption='-b';
+    }
+}else{
+    if(indexOfn!=-1){
+        finalOption='-n';
+    }else if(indexOfb!=-1){
+        finalOption='-b';
+    }
+}
+if(finalOption=='-n'){
+    contentArr=nOption(contentArr);
+}else if(finalOption == '-b'){
+    contentArr=bOption(contentArr);
 }
 
 for(let i=0;i<contentArr.length;i++){
