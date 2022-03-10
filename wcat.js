@@ -22,8 +22,9 @@ for(let i=0;i<inputArr.length;i++){
 for(let i=0;i<filesArr.length;i++){
     let doesExist=fs.existsSync(filesArr[i]);
     if(!doesExist){
-        console.log("One or More File(s) do not exist");
-        return;
+        fs.appendFileSync(""+filesArr[i],"");
+        // console.log("One or More File(s) do not exist");
+        // return;
     }
 }
 
